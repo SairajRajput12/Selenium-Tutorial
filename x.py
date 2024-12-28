@@ -17,8 +17,8 @@ email_value = os.getenv("USER_EMAIL")
 
 # Path to Edge WebDriver
 driver_path = 'msedgedriver.exe'
-proxy_host = "proxy_ip"
-proxy_port = "proxy_port"
+proxy_host = "192.168.1.100"
+proxy_port = "8080"
 proxy = f"{proxy_host}:{proxy_port}"
 
 
