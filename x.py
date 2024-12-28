@@ -12,6 +12,8 @@ load_dotenv()
 # Credentials
 username_value = os.getenv("USER_NAME")
 password_value = os.getenv("USER_PASSWORD")
+email_value = os.getenv("USER_EMAIL")
+print(email_value)
 
 # Path to Edge WebDriver
 driver_path = 'msedgedriver.exe'
@@ -45,6 +47,25 @@ login_button = wait.until(
 login_button.click()
 
 
+
+# they can ask for otp 
+try:
+    # Wait for the input field to be present and interactable
+    usernumber = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, 'input[autocomplete="on"]'))
+    )
+    usernumber.send_keys('rapsaij1@gmail.com') 
+
+    # Wait for the next button to be present and interactable
+    next_button = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, '[data-testid="ocfEnterTextNextButton"]'))
+    )
+    next_button.click()
+    print('Clicked next button successfully')
+except:
+    print("The element was not found within the time limit.")
+
+
 password = wait.until(
     EC.presence_of_element_located((By.CSS_SELECTOR,'input[autocomplete="current-password"]'))
 )
@@ -61,3 +82,22 @@ direct_message_link = wait.until(
 )
 
 
+
+# Wait for the page to load (adjust as needed for network speed)
+driver.implicitly_wait(10)
+
+# Locate the container with class "css-175oi2r r-vacyoi r-ttdzmv"
+trend_container = driver.find_element(By.CLASS_NAME, "css-175oi2r.r-vacyoi.r-ttdzmv")
+
+# Extract all spans with the specified class inside the container
+trend_spans = trend_container.find_elements(By.CLASS_NAME, "css-1jxf684.r-bcqeeo.r-1ttztb7.r-qvutc0.r-poiln3")
+
+# Get the text content of each trend
+trends = [span.text for span in trend_spans]
+
+# Print the trends
+for i, trend in enumerate(trends, start=1):
+    print(f"Trend {i}: {trend}")
+
+# Close the browser
+driver.quit()
