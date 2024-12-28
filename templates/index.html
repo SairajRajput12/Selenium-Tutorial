@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Trends</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+        }
+
+        pre {
+            background-color: #bdc3c7;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trending Tweets</h1>
+    <p>Click the button below to fetch the latest Twitter trends.</p>
+    <button onclick="fetchTrends()">Fetch Trends</button>
+
+    <div class="results" id="results">
+        
+    </div>
+
+    <script>
+        async function fetchTrends() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<p>Loading...</p>'; // Show loading message
+
+            try {
+                const response = await fetch('/fetch_tweet');
+                const data = await response.json();
+
+                if (data.message === "Trends Fetched Successfully!") {
+                    const trends = data.data.trends;
+                    const ipAddress = data.data.ip_address;
+                    const id = data.data.id;
+
+                    // Display trends
+                    let trendsHtml = '<h2>Trending Topics:</h2><ul>';
+                    trends.forEach((trendObj) => {
+                        const trendText = Object.values(trendObj)[0];
+                        trendsHtml += `<li>${trendText}</li>`;
+                    });
+                    trendsHtml += '</ul>';
+
+                    // Display metadata
+                    trendsHtml += `<p><strong>IP Address:</strong> ${ipAddress}</p>`;
+                    trendsHtml += `<p><strong>Unique ID:</strong> ${id}</p>`;
+                    trendsHtml += '<h3>JSON Data:</h3>';
+                    trendsHtml += `<pre>${JSON.stringify(data.data, null, 2)}</pre>`;
+
+                    resultsDiv.innerHTML = trendsHtml;
+                } else {
+                    resultsDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
