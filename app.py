@@ -28,8 +28,8 @@ email_value = os.getenv("USER_EMAIL")
 # Creting an instance of app 
 app = Flask(__name__) 
 driver_path = 'msedgedriver.exe'
-proxy_host = "192.168.1.100"
-proxy_port = "8080"
+proxy_host = "xxxxx"
+proxy_port = "xxxx"
 proxy = f"{proxy_host}:{proxy_port}"
 
 
