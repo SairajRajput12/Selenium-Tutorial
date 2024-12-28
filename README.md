@@ -44,7 +44,7 @@ This project fetches the latest trending topics from Twitter using **Selenium** 
 ### **Steps to Set Up**
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone Selenium-Tutorial
    cd <project-directory>
    ```
 2. Install dependencies:
