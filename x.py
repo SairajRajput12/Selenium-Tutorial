@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from dotenv import load_dotenv
+from selenium.webdriver.common.proxy import Proxy, ProxyType
 import os
 
 load_dotenv()
@@ -13,16 +14,19 @@ load_dotenv()
 username_value = os.getenv("USER_NAME")
 password_value = os.getenv("USER_PASSWORD")
 email_value = os.getenv("USER_EMAIL")
-print(email_value)
 
 # Path to Edge WebDriver
 driver_path = 'msedgedriver.exe'
+proxy_host = "proxy_ip"
+proxy_port = "proxy_port"
+proxy = f"{proxy_host}:{proxy_port}"
+
+
 
 # Edge Options and Service
 options = Options()
-# Uncomment these options as needed
-# options.add_argument("--start-maximized")  
-# options.add_argument("--headless")
+options.add_argument(f"--proxy-server={proxy}")
+options.add_argument("--headless=new")
 service = Service(executable_path=driver_path)
 
 # Initialize WebDriver
